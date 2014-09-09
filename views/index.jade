@@ -11,7 +11,7 @@ block content
         .downloader-wrapper
             input.form-control(type='text', placeholder='File url', name='url')
             input.form-control(type='text', placeholder='File name', name='name')
-            button.download.btn.btn-primary(type='submit') Download
+            button.download.btn.btn-primary(type='submit') Start Download
         .file-content
             table.table.table-striped
                 thead
@@ -24,6 +24,7 @@ block content
                             td #{file}
                             td
                                 a.btn.btn-primary(href='/download/#{file}') Download
+                                a.btn.btn-danger.delete(href='javascript:;', data-target='#{file}') Delete
 
 block extra_script
     script.
@@ -51,7 +52,14 @@ block extra_script
                         console.log(result);
                         progress.hide(function () {
                             if (result.status === 1) {
-                                msg('success', 'Download success!')
+                                msg('success', 'Download success!', function () {
+                                    var tr = $('<tr>'),
+                                        file = $('<td>').html(result.file),
+                                        downloadBtn = $('<a>').addClass('btn btn-primary').html('Download'),
+                                        deleteBtn = $('<a>').addClass('btn btn-danger').html('Delete');
+                                    $('.file-content tbody').append(tr.append(file).append($('<td>').append(downloadBtn).append(deleteBtn)));
+                                });
+
                             } else {
                                 msg('error', result.error);
                             }
@@ -62,6 +70,41 @@ block extra_script
                             msg('error', err);
                         });
                         console.log(err);
+                    }
+                });
+            });
+        });
+
+        $('.delete').on('click', function (event) {
+            event.preventDefault();
+            var self = this;
+            progress.show('Deleting file ...', function () {
+                var url = '/delete',
+                    target = $(self).data('target');
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {
+                        file: target
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                        progress.hide(function () {
+                            if (result.error) {
+                                msg('error', result.error);
+                            } else {
+                                msg('success', 'Delete file success');
+                                $(self).parents('tr').fadeOut(200, function () {
+                                    $(this).remove();
+                                });
+                            }
+                        });
+                    },
+                    error: function (err) {
+                        progress.hide(function () {
+                            msg('error', err);
+                        });
                     }
                 });
             });
