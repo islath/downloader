@@ -1,0 +1,15 @@
+doctype html
+html
+    head
+        title=title
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        link(rel='stylesheet', href='/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/css/style.css')
+        block extra_css
+
+    body
+        block content
+        script(type='text/javascript', src='/js/jquery-2.1.1.min.js')
+        script(type='text/javascript', src='/js/bootstrap.min.js')
+        script(type='text/javascript', src='/js/script.js')
+        block extra_script

@@ -1,0 +1,50 @@
+extends layout
+
+block content
+    .navbar.navbar-default
+        .container-fluid
+            .navbar-header
+                a.navbar-brand(href='javascript:;') Downloader
+            .navbar-collapse.collapse
+                ul.navbar-nav.nav
+    .container-fluid
+        .login-wrapper
+            form(method='POST')
+                input.form-control(type='text', placeholder='Username', name='username')
+                input.form-control(type='password', placeholder='Password', name='password')
+                button.btn.btn-primary.btn-lg.btn-block.login(type='submit') Submit
+
+block extra_script
+    script.
+        $('.login').on('click', function (event) {
+            event.preventDefault();
+            progress.show('Login...', function () {
+                var userName = $('input[name="username"]').val(),
+                    password = $('input[name="password"]').val();
+
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        username: userName,
+                        password: password
+                    },
+                    result: 'json',
+                    success: function (result) {
+                        progress.hide(function () {
+                            if (result.error) {
+                                msg('error', result.error);
+                            } else  {
+                                msg('success', 'Login success.', function () {
+                                    window.location = '/';
+                                }, 100);
+                            }
+                        });
+                    },
+                    error: function (err) {
+                        progress.hide(function () {
+                            msg('error', err);
+                        });
+                    }
+                });
+            });
+        });

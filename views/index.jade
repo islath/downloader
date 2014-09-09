@@ -1,0 +1,68 @@
+extends layout
+
+block content
+    .navbar.navbar-default
+        .container-fluid
+            .navbar-header
+                a.navbar-brand(href='javascript:;') Downloader
+            .navbar-collapse.collapse
+                ul.navbar-nav.nav
+    .container-fluid
+        .downloader-wrapper
+            input.form-control(type='text', placeholder='File url', name='url')
+            input.form-control(type='text', placeholder='File name', name='name')
+            button.download.btn.btn-primary(type='submit') Download
+        .file-content
+            table.table.table-striped
+                thead
+                    tr
+                        th Filename
+                        th Action
+                tbody
+                    - each file in files
+                        tr
+                            td #{file}
+                            td
+                                a.btn.btn-primary(href='/download/#{file}') Download
+
+block extra_script
+    script.
+        $('input[name="url"]').on('change', function () {
+            var tmpArr = $(this).val().split('/');
+            $('input[name="name"]').val(tmpArr[tmpArr.length - 1]);
+        });
+
+        $('.download').on('click', function (event) {
+            event.preventDefault();
+            progress.show('Downloading file...', function () {
+                var url = $('input[name="url"]').val(),
+                    name = $('input[name="name"]').val();
+
+                $.ajax({
+                    url: '/files',
+                    type: 'POST',
+                    data: {
+                        url: url,
+                        name: name
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+
+                        console.log(result);
+                        progress.hide(function () {
+                            if (result.status === 1) {
+                                msg('success', 'Download success!')
+                            } else {
+                                msg('error', result.error);
+                            }
+                        });
+                    },
+                    error: function (err) {
+                        progress.hide(function () {
+                            msg('error', err);
+                        });
+                        console.log(err);
+                    }
+                });
+            });
+        });

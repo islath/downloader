@@ -1,0 +1,16 @@
+{
+    "name": "downloader",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "express": "*",
+        "body-parser": "*",
+        "jade": "*",
+        "request": "*",
+        "morgan": "*",
+        "express-session": "*"
+    }
+}

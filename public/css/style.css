@@ -1,0 +1,82 @@
+/*   Global MSG style   */
+.msg {
+    display: none;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    right: 0;
+    z-index: 999;
+}
+
+.msg-wrapper {
+    width: 300px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #CECECE;
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(8,8,8,0.2);
+    background: #FFFFFF;
+}
+
+.msg-content {
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+
+.msg-success .msg-wrapper {
+    color: #FFFFFF;
+    background: #61E8A7;
+}
+
+.msg-error .msg-wrapper {
+    color: #FFFFFF;
+    background: #F56E6E;
+}
+
+
+/*    Progress style   */
+
+.progress {
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    background: none;
+}
+
+.progress i {
+    margin-right: 10px;
+}
+
+.progress-inner {
+    padding: 0 10px;
+    margin-top: 80px;
+    text-align: center;
+}
+
+.progress-content {
+    display: inline-block;
+    max-width: 300px;
+    padding: 15px 25px;
+    font-size: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    border-radius: 4px;
+    border: 1px solid #CCCCCC;
+    border-color: rgba(0,0,0,0.2);
+    background: #FFFFFF;
+}
+
+
+.login-wrapper {
+    width: 300px;
+    margin: 100px auto;
+}
+
+.login-wrapper input {
+    margin: 20px 0;
+}
